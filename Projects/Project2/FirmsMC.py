@@ -27,6 +27,12 @@ def get_K(b2):
     '''
     K = b2
 
+
+
+
+
+
+
     return K
 
 def get_L(nvec):

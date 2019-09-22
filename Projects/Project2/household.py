@@ -19,10 +19,9 @@ def get_c1(b2, args):
     nvec, alpha, A, delta, beta, gamma = args
 
     # get w, n
-    w = FirmsMC.get_w(b2, args=args)
-    n1 = nvec[0]
 
-    # specify c1
+    w = FirmsMC.get_w(b2,args)
+    n1 = nvec[0]
     c1 = w * n1 - b2
 
     return c1
@@ -40,12 +39,10 @@ def get_c2(b2, args):
     # unpack arguments
     nvec, alpha, A, delta, beta, gamma = args
 
-    r = FirmsMC.get_r(b2, args)
-    w = FirmsMC.get_w(b2, args)
+    r = FirmsMC.get_r(b2,args)
     n2 = nvec[1]
-
-    # specify c2
-    c2 = (1+r)*b2 + w*n2
+    w = FirmsMC.get_w(b2,args)
+    c2 = (1 + r) * b2 + w * n2
 
     return c2
 
@@ -58,12 +55,13 @@ def get_MUc(c, gamma):
     the expression in equation (9).
     '''
     # error if inputs take disallowed values
-    if c <= 0:
-        raise Exception
-    if gamma <= 0:
-        raise Exception
 
-    # specify marginal utility
-    MUc = c**(-gamma)
+    if c <= 0:
+        raise exception
+
+    if gamma <= 0:
+        raise exception 
+
+    MUc = c ** (-gamma)
 
     return MUc

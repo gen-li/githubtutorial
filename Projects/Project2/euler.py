@@ -22,35 +22,33 @@ def eul_err(b2, *args):
     this function are sufficient for everything you need to calculate
     the error form of (30).
     '''
+    nvec, alpha, A, delta, beta, gamma = args
 
-    gamma = args[5]
+# My version:
+    # w = FirmsMC.get_w(b2,args)
+    # n1 = nvec[0]
+    # r = FirmsMC.get_r(b2,args)
+    # n2 = nvec[1]
+    #
+    # LHS = (w * n1 - b2) ** (-gamma)
+    # RHS = beta * (1 + r) * ((1 + r) * b2 + w * n2) ** (-gamma)
 
-
-    #Calculate LHS of equation #30
+#Calculate LHS of equation #30
     c1 = household.get_c1(b2, args)
-
     MUc1 = household.get_MUc(c1, gamma)
-
     LHS = household.get_MUc(c1, gamma)
 
 
 
     #Calculate RHS of equation #30
     beta = args[4]
-
     r = FirmsMC.get_r(b2, args)
-
     c2 = household.get_c2(b2, args)
-
     MUc2 = household.get_MUc(c2, gamma)
 
     RHS =  beta * (1 + r) * MUc2
 
-
-    #Calculate using LHS and RHS
     error = LHS - RHS
-
-
 
     return error
 
@@ -67,9 +65,9 @@ def get_b2(args):
     above
     '''
     # Put code here.
-    b_init = 0.1
-    b_result = opt.root(eul_err, b_init, args=args)
 
+    b_ini = 0.01
+    b_result = opt.root(eul_err , b_ini, args=args)
     b2 = b_result.x[0]
 
     return b2

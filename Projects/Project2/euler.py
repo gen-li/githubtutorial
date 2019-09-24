@@ -5,8 +5,8 @@ savings in the two-period-lived overlapping generations model.
 '''
 
 # Put import commands below here
-import FirmsMC
-import household
+import FirmsMC as fmc
+import household as hh
 
 import scipy.optimize as opt
 # Fill in the functions below
@@ -22,39 +22,26 @@ def eul_err(b2, *args):
     this function are sufficient for everything you need to calculate
     the error form of (30).
     '''
-
     gamma = args[5]
 
+    # Calculate LHS of equation #30
+    c1 = hh.get_c1(b2, args)
 
-    #Calculate LHS of equation #30
-    c1 = household.get_c1(b2, args)
+    MU_c1 = hh.get_MUc(c1, gamma)
 
-    MUc1 = household.get_MUc(c1, gamma)
-
-    LHS = household.get_MUc(c1, gamma)
-
-
-
-    #Calculate RHS of equation #30
+    # Calculate RHS of equation #30
     beta = args[4]
 
-    r = FirmsMC.get_r(b2, args)
+    r = fmc.get_r(b2, args)
 
-    c2 = household.get_c2(b2, args)
+    c2 = hh.get_c2(b2, args)
 
-    MUc2 = household.get_MUc(c2, gamma)
+    MU_c2 = hh.get_MUc(c2, gamma)
 
-    RHS =  beta * (1 + r) * MUc2
-
-
-    #Calculate using LHS and RHS
-    error = LHS - RHS
-
-
+    # Calculate error
+    error = MU_c1 - beta * (1 + r) * MU_c2
 
     return error
-
-
 
 
 def get_b2(args):
@@ -66,10 +53,13 @@ def get_b2(args):
     that the target of your root finder will be the eul_err() function
     above
     '''
-    # Put code here.
-    b_init = 0.1
+    b_init = 0.01
     b_result = opt.root(eul_err, b_init, args=args)
 
     b2 = b_result.x[0]
+    b2_success = b_result.success
+    b2_error = b_result.fun[0]
+    print('Euler error success=' + str(b2_success) + '. Euler error =' +
+          str(b2_error))
 
-    return b2
+    return b2, b2_success, b2_error

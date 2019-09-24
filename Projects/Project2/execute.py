@@ -30,7 +30,7 @@ args = nvec, alpha, A, delta, beta, gamma
 
 # Solve for b2 given parameters
 
-b2 = euler.get_b2(args)
+b2, b2_success, b2_error = euler.get_b2(args)
 
 
 # Solve for all the other endogenous variables given parameter values
@@ -41,19 +41,19 @@ c2 = household.get_c2(b2, args)
 r = FirmsMC.get_r(b2, args)
 w = FirmsMC.get_w(b2, args)
 k = FirmsMC.get_K(b2)
-l = FirmsMC.get_L(nvec)
+L = FirmsMC.get_L(nvec)
 c = c1 + c2
 i = k - (1 - delta) * k
 y = c + i
 
 # Print steady-state equilibrium endogenous variables
-print("B2: " + str(b2))
-print("C1: " + str(c1))
-print("C2: " + str(c2))
-print("R: " + str(r))
-print("W: " + str(w))
-print("K: " + str(k))
-print("L: " + str(l))
-print("C: " + str(c))
-print("I: " + str(i))
-print("Y: " + str(y))
+print('b2= ' + str(b2))
+print('c1= ' + str(c1))
+print('c2: ' + str(c2))
+print('r= ' + str(r))
+print('w= ' + str(w))
+print('K= ' + str(k))
+print('L= ' + str(L))
+print('C= ' + str(c))
+print('I= ' + str(i))
+print('Y= ' + str(y))
